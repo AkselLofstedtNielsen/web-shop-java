@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:Name="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
 <h1>Login</h1>
+<form th:action = "@{/user}" method = "post" th:object="${wholeuser}">
+    <p>Email: <input type="text" th:field="*{email}" ></p>
+    <p>Password: <input type="text" th:field="*{password}" ></p>
+    <p>Age: <input type="number" th:field="*{age}" ></p>
+    <p><input type="submit" value="Add"></p>
+
+</form>
+
+<h4>Member list</h4>
+<ul th:each="p : ${userlist}">
+    <li>
+        <span th:text="${p.id}"/>,
+        <span th:text="${p.email}"/>,
+        <span th:text="${p.password}"/>
+        <span th:text="${p.age}"/>,
+    </li>
+</ul>
 
 </body>
 </html>
