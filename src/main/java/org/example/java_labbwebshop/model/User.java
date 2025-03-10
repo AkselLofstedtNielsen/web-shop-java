@@ -1,9 +1,10 @@
-package org.example.java_labbwebshop.Model;
+package org.example.java_labbwebshop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.java_labbwebshop.model.cart.Cart;
+import org.example.java_labbwebshop.model.order.Order;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +16,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @Column(nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
 }

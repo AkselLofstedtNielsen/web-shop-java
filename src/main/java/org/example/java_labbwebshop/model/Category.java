@@ -1,9 +1,8 @@
-package org.example.java_labbwebshop.Model;
+package org.example.java_labbwebshop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -14,7 +13,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
