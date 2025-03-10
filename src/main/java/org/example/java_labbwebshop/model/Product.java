@@ -13,15 +13,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Product() {}
+
+    public Product(String name, double price, Category category) {
+        this.name = name;
+        this.price = BigDecimal.valueOf(price);
+        this.category = category;
+    }
+
     @Column(nullable = false)
     private String name;
 
-    private String description;
-
     @Column(nullable = false)
     private BigDecimal price;
-
-    private int stock;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
