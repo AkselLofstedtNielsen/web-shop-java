@@ -1,11 +1,9 @@
-package org.example.java_labbwebshop.Model;
+package org.example.java_labbwebshop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @Entity
