@@ -1,5 +1,7 @@
 package org.example.java_labbwebshop.service;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.example.java_labbwebshop.model.Category;
 import org.example.java_labbwebshop.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,4 +18,15 @@ public class CategoryService {
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    @PostConstruct
+    @Transactional
+    public void mockCategories() {
+        if (categoryRepository.count() == 0) {
+            categoryRepository.save(new Category("Rock"));
+            categoryRepository.save(new Category("Pop"));
+            categoryRepository.save(new Category("Punk"));
+        }
+    }
+
 }
