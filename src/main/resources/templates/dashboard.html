@@ -10,8 +10,11 @@
 
 <h2>Categories</h2>
 <ul>
-  <li th:each="category : ${categories}" th:text="${category.name}"></li>
+  <li th:each="category : ${categories}">
+    <a th:href="@{/dashboard(categoryId=${category.id})}" th:text="${category.name}"></a>
+  </li>
 </ul>
+
 
 <h2>Products</h2>
 <ul>
