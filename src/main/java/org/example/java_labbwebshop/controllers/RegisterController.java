@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.controller;
+package org.example.java_labbwebshop.controllers;
 
 import org.example.java_labbwebshop.model.User;
 import org.example.java_labbwebshop.service.UserService;

@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop;
+package org.example.java_labbwebshop.repositories;
 
 
 import org.example.java_labbwebshop.model.User;
