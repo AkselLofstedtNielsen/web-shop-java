@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<h1>Welcome to the Webshop</h1>
+<h1>Bronx' Vinyl</h1>
 
-<h2>Categories</h2>
+<h2>Genre</h2>
 <ul>
   <li th:each="category : ${categories}">
     <a th:href="@{/dashboard(categoryId=${category.id})}" th:text="${category.name}"></a>
@@ -16,7 +16,7 @@
 </ul>
 
 
-<h2>Products</h2>
+<h2>Releases</h2>
 <ul>
   <li th:each="product : ${products}">
     <span th:text="${product.name}"></span> -
