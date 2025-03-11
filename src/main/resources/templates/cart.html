@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+</head>
+<body>
+
+<h1>Your Cart</h1>
+
+<table>
+  <tr>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Price</th>
+  </tr>
+  <tr th:each="cartItem : ${cartItems}">
+    <td th:text="${cartItem.product.name}"></td>
+    <td th:text="${cartItem.quantity}"></td>
+    <td th:text="${cartItem.product.price * cartItem.quantity} + ' SEK'"></td>
+  </tr>
+</table>
+
+<a href="/home">Continue shopping</a>
+
+</body>
+</html>
