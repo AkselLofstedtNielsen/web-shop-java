@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class DashboardController {
+public class ShopController {
 
     @Autowired
     private CategoryService categoryService;
@@ -17,8 +17,8 @@ public class DashboardController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/dashboard")
-    public String showDashboard(@RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
+    @GetMapping("/home")
+    public String showHomePage(@RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());
 
         if (categoryId != null) {
@@ -26,6 +26,6 @@ public class DashboardController {
         } else {
             model.addAttribute("products", productService.getAllProducts());
         }
-        return "dashboard";
+        return "home";
     }
 }

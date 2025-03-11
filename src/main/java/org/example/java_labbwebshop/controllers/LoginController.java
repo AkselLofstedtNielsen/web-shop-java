@@ -1,6 +1,5 @@
 package org.example.java_labbwebshop.controllers;
 
-import lombok.Data;
 import org.example.java_labbwebshop.model.User;
 import org.example.java_labbwebshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
-@Data
 @Controller
 public class LoginController {
 
@@ -27,7 +25,7 @@ public class LoginController {
     public String login(@RequestParam String email, @RequestParam String password) {
         Optional<User> user = userService.login(email, password);
         if (user.isPresent()) {
-            return "redirect:/dashboard"; // Skicka användaren till en dashboard-sida
+            return "redirect:/home"; // Skicka användaren till en dashboard-sida
         }
         return "redirect:/user?error"; // Skicka tillbaka till login om fel uppstår
     }
