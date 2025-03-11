@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.model;
+package org.example.java_labbwebshop.User;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,6 +1,7 @@
 package org.example.java_labbwebshop.service;
 
-import org.example.java_labbwebshop.model.User;
+import org.example.java_labbwebshop.User.SessionUser;
+import org.example.java_labbwebshop.User.User;
 import org.example.java_labbwebshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private SessionUser sessionUser;
+
     public void registerUser(User user) {
         userRepository.save(user);
     }
@@ -24,6 +28,12 @@ public class UserService {
     }
 
     public Optional<User> login(String email, String password) {
-        return userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByEmail(email);
+        user.ifPresent(sessionUser::setUser); // Sparar användaren i sessionen vid inloggning
+        return user;
+    }
+
+    public User getLoggedInUser() {
+        return sessionUser.getUser(); // Returnerar den inloggade användaren från sessionen
     }
 }

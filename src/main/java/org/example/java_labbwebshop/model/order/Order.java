@@ -2,7 +2,7 @@ package org.example.java_labbwebshop.model.order;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.java_labbwebshop.model.User;
+import org.example.java_labbwebshop.User.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
