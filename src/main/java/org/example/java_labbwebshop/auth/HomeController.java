@@ -1,7 +1,7 @@
-package org.example.java_labbwebshop.controllers;
+package org.example.java_labbwebshop.auth;
 
-import org.example.java_labbwebshop.service.CategoryService;
-import org.example.java_labbwebshop.service.ProductService;
+import org.example.java_labbwebshop.category.CategoryService;
+import org.example.java_labbwebshop.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

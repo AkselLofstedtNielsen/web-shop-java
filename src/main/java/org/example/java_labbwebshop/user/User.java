@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.model;
+package org.example.java_labbwebshop.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.example.java_labbwebshop.model.cart.Cart;
-import org.example.java_labbwebshop.model.order.Order;
+import org.example.java_labbwebshop.cart.model.Cart;
+import org.example.java_labbwebshop.order.Order;
 
 import java.util.ArrayList;
 import java.util.List;

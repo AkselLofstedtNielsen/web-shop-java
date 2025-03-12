@@ -1,11 +1,9 @@
-package org.example.java_labbwebshop.service;
+package org.example.java_labbwebshop.product;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
-import org.example.java_labbwebshop.model.Category;
-import org.example.java_labbwebshop.model.Product;
-import org.example.java_labbwebshop.repositories.CategoryRepository;
-import org.example.java_labbwebshop.repositories.ProductRepository;
+import org.example.java_labbwebshop.category.Category;
+import org.example.java_labbwebshop.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

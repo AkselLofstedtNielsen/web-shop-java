@@ -1,8 +1,8 @@
-package org.example.java_labbwebshop.model.order;
+package org.example.java_labbwebshop.order;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.java_labbwebshop.model.User;
+import org.example.java_labbwebshop.user.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

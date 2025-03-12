@@ -1,6 +1,5 @@
-package org.example.java_labbwebshop.repositories;
+package org.example.java_labbwebshop.product;
 
-import org.example.java_labbwebshop.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,8 @@
-package org.example.java_labbwebshop.controllers;
+package org.example.java_labbwebshop.cart;
 
-import org.example.java_labbwebshop.model.User;
-import org.example.java_labbwebshop.model.cart.CartItem;
-import org.example.java_labbwebshop.service.CartService;
-import org.example.java_labbwebshop.service.UserService;
+import org.example.java_labbwebshop.cart.model.CartItem;
+import org.example.java_labbwebshop.user.User;
+import org.example.java_labbwebshop.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,7 +1,9 @@
-package org.example.java_labbwebshop.model;
+package org.example.java_labbwebshop.category;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.java_labbwebshop.product.Product;
+
 import java.util.List;
 
 @Data

@@ -1,14 +1,14 @@
-package org.example.java_labbwebshop.service;
+package org.example.java_labbwebshop.cart;
 
 import jakarta.transaction.Transactional;
-import org.example.java_labbwebshop.model.Product;
-import org.example.java_labbwebshop.model.User;
-import org.example.java_labbwebshop.model.cart.Cart;
-import org.example.java_labbwebshop.model.cart.CartItem;
-import org.example.java_labbwebshop.repositories.CartItemRepository;
-import org.example.java_labbwebshop.repositories.CartRepository;
-import org.example.java_labbwebshop.repositories.ProductRepository;
-import org.example.java_labbwebshop.repositories.UserRepository;
+import org.example.java_labbwebshop.cart.model.Cart;
+import org.example.java_labbwebshop.cart.model.CartItem;
+import org.example.java_labbwebshop.cart.repositories.CartItemRepository;
+import org.example.java_labbwebshop.cart.repositories.CartRepository;
+import org.example.java_labbwebshop.product.Product;
+import org.example.java_labbwebshop.user.User;
+import org.example.java_labbwebshop.product.ProductRepository;
+import org.example.java_labbwebshop.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

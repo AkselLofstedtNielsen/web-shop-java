@@ -1,7 +1,7 @@
-package org.example.java_labbwebshop.repositories;
+package org.example.java_labbwebshop.cart.repositories;
 
-import org.example.java_labbwebshop.model.User;
-import org.example.java_labbwebshop.model.cart.Cart;
+import org.example.java_labbwebshop.cart.model.Cart;
+import org.example.java_labbwebshop.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

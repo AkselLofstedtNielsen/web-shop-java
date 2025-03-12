@@ -1,20 +1,20 @@
-package org.example.java_labbwebshop.model.order;
+package org.example.java_labbwebshop.cart.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.java_labbwebshop.model.Product;
+import org.example.java_labbwebshop.product.Product;
 
 @Data
 @Entity
-@Table(name = "order_item")
-public class OrderItem {
+@Table(name = "cart_item")
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

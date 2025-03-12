@@ -1,8 +1,8 @@
-package org.example.java_labbwebshop.model.cart;
+package org.example.java_labbwebshop.cart.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.java_labbwebshop.model.User;
+import org.example.java_labbwebshop.user.User;
 import org.springframework.web.context.annotation.SessionScope;
 import java.util.ArrayList;
 import java.util.List;
