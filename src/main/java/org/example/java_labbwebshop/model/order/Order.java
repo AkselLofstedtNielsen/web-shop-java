@@ -2,8 +2,7 @@ package org.example.java_labbwebshop.model.order;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.java_labbwebshop.user.User;
-
+import org.example.java_labbwebshop.model.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,5 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
-
 
 }

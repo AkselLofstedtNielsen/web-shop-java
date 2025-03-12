@@ -18,9 +18,11 @@ public class HomeController {
     private ProductService productService;
 
     @GetMapping("/home")
-    public String showHomePage(@RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
+    public String showHomePage(@RequestParam(value = "userId", required = false) Long userId,
+                               @RequestParam(value = "categoryId", required = false) Long categoryId, Model model
+    ) {
         model.addAttribute("categories", categoryService.getAllCategories());
-
+        model.addAttribute("userId", userId);
         if (categoryId != null) {
             model.addAttribute("products", productService.getProductsByCategory(categoryId));
         } else {
@@ -28,4 +30,5 @@ public class HomeController {
         }
         return "home";
     }
+
 }

@@ -1,7 +1,7 @@
 package org.example.java_labbwebshop.controllers;
 
 import jakarta.validation.Valid;
-import org.example.java_labbwebshop.user.User;
+import org.example.java_labbwebshop.model.User;
 import org.example.java_labbwebshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +27,9 @@ public class RegisterController {
         if (bindingResult.hasErrors()) {
             return "register"; // Om validering misslyckas, returnera till registreringssidan med felmeddelanden
         }
-
         userService.registerUser(user);
         return "redirect:/login"; // Omdirigera till inloggningssidan vid lyckad registrering
     }
+
 }
 

@@ -2,7 +2,7 @@ package org.example.java_labbwebshop.service;
 
 import jakarta.transaction.Transactional;
 import org.example.java_labbwebshop.model.Product;
-import org.example.java_labbwebshop.user.User;
+import org.example.java_labbwebshop.model.User;
 import org.example.java_labbwebshop.model.cart.Cart;
 import org.example.java_labbwebshop.model.cart.CartItem;
 import org.example.java_labbwebshop.repositories.CartItemRepository;

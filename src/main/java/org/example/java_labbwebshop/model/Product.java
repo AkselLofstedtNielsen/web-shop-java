@@ -2,7 +2,6 @@ package org.example.java_labbwebshop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.math.BigDecimal;
 
 @Data

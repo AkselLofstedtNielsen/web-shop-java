@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.user;
+package org.example.java_labbwebshop.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
