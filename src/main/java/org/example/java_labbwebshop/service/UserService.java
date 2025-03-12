@@ -1,7 +1,7 @@
 package org.example.java_labbwebshop.service;
 
-import org.example.java_labbwebshop.User.SessionUser;
-import org.example.java_labbwebshop.User.User;
+import org.example.java_labbwebshop.user.SessionUser;
+import org.example.java_labbwebshop.user.User;
 import org.example.java_labbwebshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@ApplicationScope //Default onödig
 public class UserService {
 
     @Autowired

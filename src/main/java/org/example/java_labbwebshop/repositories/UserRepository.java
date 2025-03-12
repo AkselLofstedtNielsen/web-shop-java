@@ -1,7 +1,7 @@
 package org.example.java_labbwebshop.repositories;
 
 
-import org.example.java_labbwebshop.User.User;
+import org.example.java_labbwebshop.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

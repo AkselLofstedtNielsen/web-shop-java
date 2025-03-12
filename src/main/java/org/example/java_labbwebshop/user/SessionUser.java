@@ -1,14 +1,12 @@
-package org.example.java_labbwebshop.User;
+package org.example.java_labbwebshop.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Component
 @SessionScope
-@Getter
-@Setter
+@Data
 public class SessionUser {
     private User user;
 }

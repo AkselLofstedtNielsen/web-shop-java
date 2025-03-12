@@ -1,6 +1,6 @@
 package org.example.java_labbwebshop.controllers;
 
-import org.example.java_labbwebshop.User.User;
+import org.example.java_labbwebshop.user.User;
 import org.example.java_labbwebshop.model.cart.CartItem;
 import org.example.java_labbwebshop.service.CartService;
 import org.example.java_labbwebshop.service.UserService;
