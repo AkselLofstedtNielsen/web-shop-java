@@ -28,8 +28,12 @@ public class CartController {
             return "redirect:/login?error=notfound";
         }
         List<CartItem> cartItems = cartService.getCartItemsForUser(user.get());
+        double total = cartService.getTotal(user.get());
+
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("total", total);
         model.addAttribute("userId", userId);
+
         return "cart";
     }
 
@@ -40,6 +44,28 @@ public class CartController {
             return "redirect:/login?error=notfound";
         }
         cartService.addToCart(user.get(), productId);
+        return "redirect:/cart?userId=" + userId;
+    }
+
+    @PostMapping("/cart/update")
+    public String updateCart(@RequestParam("userId") Long userId,
+                             @RequestParam("productId") Long productId,
+                             @RequestParam int quantity) {
+        Optional<User> user = userService.findById(userId);
+        if (user.isEmpty()) {
+            return "redirect:/login?error=notfound";
+        }
+        cartService.updateQuantity(user.get(), productId, quantity);
+        return "redirect:/cart?userId=" + userId;
+    }
+
+    @PostMapping("/cart/remove")
+    public String removeItem(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId) {
+        Optional<User> user = userService.findById(userId);
+        if (user.isEmpty()) {
+            return "redirect:/login?error=notfound";
+        }
+        cartService.removeItem(user.get(), productId);
         return "redirect:/cart?userId=" + userId;
     }
 
