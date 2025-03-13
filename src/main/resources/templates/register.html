@@ -6,19 +6,20 @@
 </head>
 <body>
 <h1>Register</h1>
+
 <form th:action="@{/register}" th:object="${user}" method="post">
-  <label>Email:</label>
-  <input type="text" th:field="*{email}" />
-  <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-  <br>
+  <input type="email" th:field="*{email}" placeholder="E-post" required>
+  <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
 
-  <label>Password:</label>
-  <input type="password" th:field="*{password}" />
-  <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-  <br>
+  <input type="password" th:field="*{password}" placeholder="Lösenord" required>
+  <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></span>
 
-  <button type="submit">Register</button>
+  <button type="submit">Registrera</button>
 </form>
+
+<p style="color: red;">
+  <span th:if="${errorMessage}" th:text="${errorMessage}"></span>
+</p>
 
 <p>Already have an account? <a href="/login">Login here</a></p>
 

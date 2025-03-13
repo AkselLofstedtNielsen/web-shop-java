@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.auth;
+package org.example.java_labbwebshop.home;
 
 import org.example.java_labbwebshop.category.CategoryService;
 import org.example.java_labbwebshop.product.ProductService;
