@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.java_labbwebshop.cart.model.Cart;
-import org.example.java_labbwebshop.order.Order;
+import org.example.java_labbwebshop.order.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;

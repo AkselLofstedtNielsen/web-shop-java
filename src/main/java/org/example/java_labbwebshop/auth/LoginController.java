@@ -32,5 +32,4 @@ public class LoginController {
         return "redirect:/home?userId=" + user.get().getId();
     }
 
-
 }

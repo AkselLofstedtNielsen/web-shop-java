@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmation</title>
+</head>
+<body>
+<h1>Order Confirmation</h1>
+
+<h2>Order Details</h2>
+<p>Order ID: <span th:text="${order.id}"></span></p>
+
+<table>
+  <thead>
+  <tr>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${order.orderItems}">
+    <td th:text="${item.product.name}"></td>
+    <td th:text="${item.quantity}"></td>
+    <td th:text="${item.product.price}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<h3>Total Price: <span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}"></span> SEK</h3>
+
+
+<a th:href="@{/home(userId=${order.user.id})}">Back to Home</a>
+</body>
+</html>

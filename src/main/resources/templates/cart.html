@@ -43,5 +43,11 @@
 
 <a th:href="@{/home(userId=${userId})}">Continue shopping</a>
 
+<form th:action="@{/order/place}" method="post">
+  <input type="hidden" name="userId" th:value="${userId}"/>
+  <button type="submit">Proceed to Checkout</button>
+</form>
+
+
 </body>
 </html>

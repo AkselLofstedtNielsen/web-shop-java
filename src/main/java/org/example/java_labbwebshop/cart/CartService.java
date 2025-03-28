@@ -74,6 +74,13 @@ public class CartService {
     }
 
     @Transactional
+    public void clearCart(User user) {
+        Cart cart = getCartForUser(user);
+        cart.getCartItems().clear();
+        cartRepository.save(cart);
+    }
+
+    @Transactional
     public void removeItem(User user, Long productId) {
         Cart cart = getCartForUser(user);
         cart.getCartItems().removeIf(item -> {
