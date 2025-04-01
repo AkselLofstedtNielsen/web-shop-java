@@ -37,6 +37,15 @@ public class CartController {
         return "cart";
     }
 
+    @PostMapping("/cart/show")
+    public String showCart(@RequestParam("userId") Long userId){
+        Optional<User> user = userService.findById(userId);
+        if (user.isEmpty()) {
+            return "redirect:/login?error=notfound";
+        }
+        return "redirect:/cart?userId=" + userId;
+    }
+
     @PostMapping("/cart/add")
     public String addToCart(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId) {
         Optional<User> user = userService.findById(userId);
@@ -44,7 +53,7 @@ public class CartController {
             return "redirect:/login?error=notfound";
         }
         cartService.addToCart(user.get(), productId);
-        return "redirect:/cart?userId=" + userId;
+        return "redirect:/home?userId=" + user.get().getId();
     }
 
     @PostMapping("/cart/update")

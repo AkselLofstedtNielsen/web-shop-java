@@ -7,7 +7,10 @@
 <body>
 
 <h1>Bronx' Vinyl</h1>
-
+<form th:action="@{/cart/show}" method="post">
+  <input type="hidden" name="userId" th:value="${userId}"/>
+  <button type="submit">Go to cart</button>
+</form>
 <h2>Genre</h2>
 <ul>
   <li th:each="category : ${categories}">
