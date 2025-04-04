@@ -10,4 +10,8 @@ public class JavaLabbWebshopApplication {
         SpringApplication.run(JavaLabbWebshopApplication.class, args);
     }
 
+    //Sökfunktion produkt
+    //ADmin
+    //Tester
+
 }

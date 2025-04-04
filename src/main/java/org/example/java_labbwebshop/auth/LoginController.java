@@ -3,6 +3,7 @@ package org.example.java_labbwebshop.auth;
 import org.example.java_labbwebshop.user.User;
 import org.example.java_labbwebshop.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,13 @@ public class LoginController {
             model.addAttribute("errorMessage", "Invalid email or password.");
             return "loginpage";
         }
-        return "redirect:/home?userId=" + user.get().getId();
+
+        if (user.get().getRole() == User.Role.ADMIN) {
+            return "redirect:/admin?userId=" + user.get().getId();
+        }else{
+            return "redirect:/home?userId=" + user.get().getId();
+        }
+
     }
 
 }
