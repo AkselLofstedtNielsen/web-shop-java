@@ -18,16 +18,23 @@ public class HomeController {
     private ProductService productService;
 
     @GetMapping("/home")
-    public String showHomePage(@RequestParam(value = "userId", required = false) Long userId,
-                               @RequestParam(value = "categoryId", required = false) Long categoryId, Model model
+    public String showHomePage(
+            @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "search", required = false) String search,
+            Model model
     ) {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("userId", userId);
-        if (categoryId != null) {
+
+        if (search != null && !search.isEmpty()) {
+            model.addAttribute("products", productService.searchProducts(search));
+        } else if (categoryId != null) {
             model.addAttribute("products", productService.getProductsByCategory(categoryId));
         } else {
             model.addAttribute("products", productService.getAllProducts());
         }
+
         return "home";
     }
 

@@ -26,6 +26,10 @@ public class ProductService {
         return productRepository.findByCategoryId(categoryId);
     }
 
+    public List<Product> searchProducts(String keyword) {
+        return productRepository.findByNameContainingIgnoreCase(keyword);
+    }
+
     @PostConstruct
     @Transactional
     public void mockProducts() {

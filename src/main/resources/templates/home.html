@@ -11,6 +11,13 @@
   <input type="hidden" name="userId" th:value="${userId}"/>
   <button type="submit">Go to cart</button>
 </form>
+<h2>Sök produkt</h2>
+<form th:action="@{/home}" method="get">
+  <input type="hidden" name="userId" th:value="${userId}" />
+  <input type="text" name="search" placeholder="Sök på produktnamn" />
+  <button type="submit">Sök</button>
+</form>
+
 <h2>Genre</h2>
 <ul>
   <li th:each="category : ${categories}">
