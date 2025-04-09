@@ -1,5 +1,7 @@
 package org.example.java_labbwebshop.cart;
 
+import jakarta.inject.Inject;
+import org.aspectj.lang.annotation.Before;
 import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.example.java_labbwebshop.cart.repositories.CartItemRepository;
@@ -10,18 +12,21 @@ import org.example.java_labbwebshop.product.ProductRepository;
 import org.example.java_labbwebshop.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class CartServiceTest {
-    @InjectMocks
-    private CartService cartService;
 
     @Mock
     private CartRepository cartRepository;
@@ -32,38 +37,52 @@ class CartServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @InjectMocks
+    private CartService cartService;
 
-
+    private User testUser;
+    private Product testProduct;
+    private Cart testCart;
+    private CartItem testCartItem;
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void setUp(){
+        //MockitoAnnotations.initMocks(this); Onödig med JUnit5 extension, @ExtendWith(MockitoExtension.class) = skapar upp mock obj
+
+        testUser = new User();
+        testUser.setId(1L);
+        testUser.setEmail("test@tester.com");
+
+        testProduct = new Product();
+        testProduct.setId(1L);
+        testProduct.setName("TestProduct");
+        testProduct.setPrice(new BigDecimal(12.0));
+
+        testCart = new Cart();
+        testCart.setId(1L);
+        testCart.setUser(testUser);
+        testCart.setCartItems(new ArrayList<>());
+
+        testCartItem = new CartItem();
+        testCartItem.setId(1L);
+        testCartItem.setCart(testCart);
+        testCartItem.setProduct(testProduct);
+        testCartItem.setQuantity(2);
+
     }
 
     @Test
-    void addToCart() {
-        Cart cart = new Cart();
+    public void testGetCartForUser(){
+        when(cartRepository.findByUser(testUser)).thenReturn(Optional.of(testCart));
 
-        User user = new User();
+        Cart result = cartService.getCartForUser(testUser);
 
-        Product product = new Product();
-
-        cart.setCartItems(new ArrayList<CartItem>());
-
-        user.setId(1L);
-        cart.setUser(user);
-
-        product.setId(1L);
-        product.setPrice(BigDecimal.valueOf(100.0));
-
-
+        assertNotNull(result);
+        assertEquals(testCart, result);
+        verify(cartRepository).findByUser(testUser);
+        verify(cartRepository, never()).save(any(Cart.class));
     }
 
-    @Test
-    void removeItem() {
-    }
 
-    @Test
-    void getTotal() {
-    }
+
 }

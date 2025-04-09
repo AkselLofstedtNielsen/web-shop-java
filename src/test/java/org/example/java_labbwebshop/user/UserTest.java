@@ -40,10 +40,8 @@ class UserTest {
 
         when(userRepository.save(newUser)).thenReturn(newUser);
 
-        //Act
         userService.registerUser(newUser);
 
-        //Assert
         verify(userRepository, times(1)).save(newUser);
     }
 
@@ -54,10 +52,8 @@ class UserTest {
 
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(testUser));
 
-        //DO
         Optional<User> result = userService.login(email, password);
 
-        //Assert
         assertTrue(result.isPresent());
         assertEquals(testUser, result.get());
         verify(userRepository, times(1)).findByEmail(email);
@@ -68,7 +64,6 @@ class UserTest {
         Long id = 1L;
         when(userRepository.findById(id)).thenReturn(Optional.of(testUser));
 
-        //Do
         Optional<User> result = userService.findById(id);
 
         assertTrue(result.isPresent());
