@@ -10,7 +10,6 @@ import org.example.java_labbwebshop.order.repositories.OrderRepository;
 import org.example.java_labbwebshop.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -47,9 +46,8 @@ public class OrderService {
         }
 
         order.setOrderItems(orderItemRepository.findByOrder(order));
-        orderRepository.save(order);
 
-        // Töm varukorgen efter orderläggning
+        orderRepository.save(order);
         cartService.clearCart(user);
 
         return order;
@@ -57,7 +55,7 @@ public class OrderService {
 
     public Order getOrderById(Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Order not found: " + id));
     }
 
     public BigDecimal calculateTotalPrice(Order order) {
@@ -66,7 +64,6 @@ public class OrderService {
                         .multiply(BigDecimal.valueOf(orderItem.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
 
 }
 

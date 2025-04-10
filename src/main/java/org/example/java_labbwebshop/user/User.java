@@ -8,8 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.order.model.Order;
-
-import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +41,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
-
 
     public enum Role {
         USER, ADMIN

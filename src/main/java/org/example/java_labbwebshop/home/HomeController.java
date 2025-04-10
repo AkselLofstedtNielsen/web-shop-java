@@ -34,7 +34,6 @@ public class HomeController {
         } else {
             model.addAttribute("products", productService.getAllProducts());
         }
-
         return "home";
     }
 

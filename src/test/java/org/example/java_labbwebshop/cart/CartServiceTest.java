@@ -1,29 +1,21 @@
 package org.example.java_labbwebshop.cart;
 
-import jakarta.inject.Inject;
-import org.aspectj.lang.annotation.Before;
 import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.example.java_labbwebshop.cart.repositories.CartItemRepository;
 import org.example.java_labbwebshop.cart.repositories.CartRepository;
-import org.example.java_labbwebshop.category.Category;
 import org.example.java_labbwebshop.product.Product;
 import org.example.java_labbwebshop.product.ProductRepository;
 import org.example.java_labbwebshop.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -45,7 +37,6 @@ class CartServiceTest {
     private User testUser;
     private Product testProduct;
     private Cart testCart;
-    private CartItem testCartItem;
 
     @BeforeEach
     public void setUp(){
@@ -65,7 +56,7 @@ class CartServiceTest {
         testCart.setUser(testUser);
         testCart.setCartItems(new ArrayList<>());
 
-        testCartItem = new CartItem();
+        CartItem testCartItem = new CartItem();
         testCartItem.setId(1L);
         testCartItem.setCart(testCart);
         testCartItem.setProduct(testProduct);

@@ -3,7 +3,6 @@ package org.example.java_labbwebshop.auth;
 import org.example.java_labbwebshop.user.User;
 import org.example.java_labbwebshop.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -7,7 +7,6 @@ import org.example.java_labbwebshop.order.model.Order;
 import org.example.java_labbwebshop.order.repositories.OrderRepository;
 import org.example.java_labbwebshop.product.Product;
 import org.example.java_labbwebshop.product.ProductRepository;
-import org.example.java_labbwebshop.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

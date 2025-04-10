@@ -8,16 +8,21 @@
 <h1>Register</h1>
 
 <form th:action="@{/register}" th:object="${user}" method="post">
-  <input type="email" th:field="*{email}" placeholder="E-post" required>
+  <label>
+    <input type="email" th:field="*{email}" placeholder="E-post" required>
+  </label>
   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
 
-  <input type="password" th:field="*{password}" placeholder="Lösenord" required>
+  <label>
+    <input type="password" th:field="*{password}" placeholder="Lösenord" required>
+  </label>
   <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></span>
 
   <button type="submit">Registrera</button>
 </form>
 
 <p style="color: red;">
+  <!--/*@thymesVar id="errorMessage" type="java"*/-->
   <span th:if="${errorMessage}" th:text="${errorMessage}"></span>
 </p>
 

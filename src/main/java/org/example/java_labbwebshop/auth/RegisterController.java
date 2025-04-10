@@ -25,8 +25,8 @@ public class RegisterController {
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);  // Skicka tillbaka användarens data
-            return "register";  // Gå tillbaka till registreringssidan med felmeddelanden
+            model.addAttribute("user", user);
+            return "register";
         }
         userService.registerUser(user);
         return "redirect:/login";

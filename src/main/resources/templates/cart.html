@@ -24,7 +24,9 @@
       <form th:action="@{/cart/update}" method="post">
         <input type="hidden" name="userId" th:value="${userId}"/>
         <input type="hidden" name="productId" th:value="${cartItem.product.id}"/>
-        <input type="number" name="quantity" th:value="${cartItem.quantity}" min="1"/>
+        <label>
+          <input type="number" name="quantity" th:value="${cartItem.quantity}" min="1"/>
+        </label>
         <button type="submit">Update</button>
       </form>
     </td>

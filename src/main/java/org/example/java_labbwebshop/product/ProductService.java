@@ -6,7 +6,6 @@ import org.example.java_labbwebshop.category.Category;
 import org.example.java_labbwebshop.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -49,7 +48,6 @@ public class ProductService {
                 productRepository.save(new Product("Madonna - Like a Virgin", 179.0, popCategory));
             }
 
-            // Lägg till Punk-produkter
             if (punkCategory != null) {
                 productRepository.save(new Product("The Ramones - Ramones", 189.0, punkCategory));
                 productRepository.save(new Product("Green Day - Dookie", 199.0, punkCategory));

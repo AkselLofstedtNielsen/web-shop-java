@@ -10,9 +10,7 @@ import org.example.java_labbwebshop.user.User;
 import org.example.java_labbwebshop.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -98,9 +96,9 @@ public class CartService {
                 .sum();
     }
 
-
     public List<CartItem> getCartItemsForUser(User user) {
         return getCartForUser(user).getCartItems();
     }
+
 }
 
