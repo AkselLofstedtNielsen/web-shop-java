@@ -13,9 +13,11 @@ import org.example.java_labbwebshop.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -56,7 +58,7 @@ class CartServiceTest {
         testProduct = new Product();
         testProduct.setId(1L);
         testProduct.setName("TestProduct");
-        testProduct.setPrice(new BigDecimal(12.0));
+        testProduct.setPrice(new BigDecimal("12.0"));
 
         testCart = new Cart();
         testCart.setId(1L);
@@ -81,6 +83,21 @@ class CartServiceTest {
         assertEquals(testCart, result);
         verify(cartRepository).findByUser(testUser);
         verify(cartRepository, never()).save(any(Cart.class));
+    }
+
+    @Test
+    public void testAddCartItem(){
+        Long productId = 1L;
+        when(cartRepository.findByUser(testUser)).thenReturn(Optional.of(testCart));
+        when(productRepository.findById(productId)).thenReturn(Optional.of(testProduct));
+
+        cartService.addToCart(testUser, productId);
+
+        verify(cartItemRepository).save(argThat(item ->
+                item.getCart().equals(testCart) &&
+                        item.getProduct().equals(testProduct) &&
+                        item.getQuantity() == 1
+        ));
     }
 
 

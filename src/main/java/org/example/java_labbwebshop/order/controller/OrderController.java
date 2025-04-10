@@ -1,5 +1,6 @@
 package org.example.java_labbwebshop.order.controller;
 
+import org.example.java_labbwebshop.cart.CartService;
 import org.example.java_labbwebshop.order.model.Order;
 import org.example.java_labbwebshop.order.service.OrderService;
 import org.example.java_labbwebshop.user.User;
@@ -23,6 +24,7 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+
     @PostMapping("/order/place")
     public String placeOrder(@RequestParam("userId") Long userId) {
         Optional<User> user = userService.findById(userId);
@@ -31,6 +33,7 @@ public class OrderController {
         }
         try {
             Order order = orderService.placeOrder(user.get());
+
             return "redirect:/order/confirmation?orderId=" + order.getId();
         } catch (RuntimeException e) {
             return "redirect:/cart?error=" + e.getMessage();

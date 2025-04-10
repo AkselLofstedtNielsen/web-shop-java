@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,8 +77,8 @@ public class CartService {
     @Transactional
     public void clearCart(User user) {
         Cart cart = getCartForUser(user);
+        cartRepository.delete(cart);
         cart.getCartItems().clear();
-        cartRepository.save(cart);
     }
 
     @Transactional
