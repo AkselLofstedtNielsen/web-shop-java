@@ -7,13 +7,14 @@
 <body>
 
 <h1>Bronx' Vinyl</h1>
+
+<!-- Gå till varukorgen -->
 <form th:action="@{/cart/show}" method="post">
-  <input type="hidden" name="userId" th:value="${userId}"/>
   <button type="submit">Go to cart</button>
 </form>
+
 <h2>Sök produkt</h2>
 <form th:action="@{/home}" method="get">
-  <input type="hidden" name="userId" th:value="${userId}" />
   <input type="text" name="search" placeholder="Sök på produktnamn" />
   <button type="submit">Sök</button>
 </form>
@@ -21,7 +22,7 @@
 <h2>Genre</h2>
 <ul>
   <li th:each="category : ${categories}">
-    <a th:href="@{/home(userId=${userId}, categoryId=${category.id})}" th:text="${category.name}"></a>
+    <a th:href="@{/home(categoryId=${category.id})}" th:text="${category.name}"></a>
   </li>
 </ul>
 
@@ -31,11 +32,11 @@
     <span th:text="${product.name}"></span> -
     <span th:text="${product.price}"></span> SEK
     <form th:action="@{/cart/add}" method="post">
-      <input type="hidden" name="userId" th:value="${userId}" />
       <input type="hidden" name="productId" th:value="${product.id}" />
       <button type="submit">Lägg till i varukorg</button>
     </form>
   </li>
 </ul>
+
 </body>
 </html>

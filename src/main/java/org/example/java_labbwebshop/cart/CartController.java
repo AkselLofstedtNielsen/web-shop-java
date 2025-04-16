@@ -1,16 +1,16 @@
 package org.example.java_labbwebshop.cart;
 
 import org.example.java_labbwebshop.cart.model.CartItem;
+import org.example.java_labbwebshop.user.SessionUser;
 import org.example.java_labbwebshop.user.User;
-import org.example.java_labbwebshop.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class CartController {
@@ -19,64 +19,61 @@ public class CartController {
     private CartService cartService;
 
     @Autowired
-    private UserService userService;
+    private SessionUser sessionUser;
 
     @GetMapping("/cart")
-    public String showCart(@RequestParam("userId") Long userId, Model model) {
-        Optional<User> user = userService.findById(userId);
-        if (user.isEmpty()) {
+    public String showCart(Model model) {
+        User user = sessionUser.getUser();
+        if (user == null) {
             return "redirect:/login?error=notfound";
         }
-        List<CartItem> cartItems = cartService.getCartItemsForUser(user.get());
-        double total = cartService.getTotal(user.get());
+
+        List<CartItem> cartItems = cartService.getCartItemsForUser(user);
+        double total = cartService.getTotal(user);
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);
-        model.addAttribute("userId", userId);
 
         return "cart";
     }
 
     @PostMapping("/cart/show")
-    public String showCart(@RequestParam("userId") Long userId){
-        Optional<User> user = userService.findById(userId);
-        if (user.isEmpty()) {
+    public String showCartPost() {
+        if (sessionUser.getUser() == null) {
             return "redirect:/login?error=notfound";
         }
-        return "redirect:/cart?userId=" + userId;
+        return "redirect:/cart";
     }
 
     @PostMapping("/cart/add")
-    public String addToCart(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId) {
-        Optional<User> user = userService.findById(userId);
-        if (user.isEmpty()) {
+    public String addToCart(@RequestParam("productId") Long productId) {
+        User user = sessionUser.getUser();
+        if (user == null) {
             return "redirect:/login?error=notfound";
         }
-        cartService.addToCart(user.get(), productId);
-        return "redirect:/home?userId=" + user.get().getId();
+
+        cartService.addToCart(user, productId);
+        return "redirect:/home";
     }
 
     @PostMapping("/cart/update")
-    public String updateCart(@RequestParam("userId") Long userId,
-                             @RequestParam("productId") Long productId,
+    public String updateCart(@RequestParam("productId") Long productId,
                              @RequestParam int quantity) {
-        Optional<User> user = userService.findById(userId);
-        if (user.isEmpty()) {
+        User user = sessionUser.getUser();
+        if (user == null) {
             return "redirect:/login?error=notfound";
         }
-        cartService.updateQuantity(user.get(), productId, quantity);
-        return "redirect:/cart?userId=" + userId;
+        cartService.updateQuantity(user, productId, quantity);
+        return "redirect:/cart";
     }
 
     @PostMapping("/cart/remove")
-    public String removeItem(@RequestParam("userId") Long userId, @RequestParam("productId") Long productId) {
-        Optional<User> user = userService.findById(userId);
-        if (user.isEmpty()) {
+    public String removeItem(@RequestParam("productId") Long productId) {
+        User user = sessionUser.getUser();
+        if (user == null) {
             return "redirect:/login?error=notfound";
         }
-        cartService.removeItem(user.get(), productId);
-        return "redirect:/cart?userId=" + userId;
+        cartService.removeItem(user, productId);
+        return "redirect:/cart";
     }
-
 }
-

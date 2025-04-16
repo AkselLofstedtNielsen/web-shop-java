@@ -2,17 +2,15 @@ package org.example.java_labbwebshop.order.controller;
 
 import org.example.java_labbwebshop.order.model.Order;
 import org.example.java_labbwebshop.order.service.OrderService;
+import org.example.java_labbwebshop.user.SessionUser;
 import org.example.java_labbwebshop.user.User;
-import org.example.java_labbwebshop.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Controller
 public class OrderController {
@@ -21,18 +19,16 @@ public class OrderController {
     private OrderService orderService;
 
     @Autowired
-    private UserService userService;
-
+    SessionUser sessionUser;
 
     @PostMapping("/order/place")
-    public String placeOrder(@RequestParam("userId") Long userId) {
-        Optional<User> user = userService.findById(userId);
-        if (user.isEmpty()) {
+    public String placeOrder() {
+        User user = sessionUser.getUser();
+        if (user == null) {
             return "redirect:/login?error=notfound";
         }
         try {
-            Order order = orderService.placeOrder(user.get());
-
+            Order order = orderService.placeOrder(user);
             return "redirect:/order/confirmation?orderId=" + order.getId();
         } catch (RuntimeException e) {
             return "redirect:/cart?error=" + e.getMessage();
@@ -51,7 +47,5 @@ public class OrderController {
             return "redirect:/cart?error=orderNotFound";
         }
     }
-
-
 
 }

@@ -8,19 +8,21 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.order.model.Order;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
+    private Role role = Role.USER; //DEFAULT USER
 
     @Column(nullable = false)
     @NotBlank(message = "Email is required")

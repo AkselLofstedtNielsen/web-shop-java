@@ -7,7 +7,6 @@ import org.springframework.web.context.annotation.SessionScope;
 import java.util.ArrayList;
 import java.util.List;
 
-@SessionScope
 @Data
 @Entity
 @Table(name="cart")
