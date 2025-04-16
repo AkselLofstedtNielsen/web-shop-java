@@ -2,6 +2,8 @@ package org.example.java_labbwebshop.home;
 
 import org.example.java_labbwebshop.category.CategoryService;
 import org.example.java_labbwebshop.product.ProductService;
+import org.example.java_labbwebshop.user.SessionUser;
+import org.example.java_labbwebshop.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +19,18 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private SessionUser sessionUser;
+
     @GetMapping("/home")
     public String showHomePage(
-            @RequestParam(value = "userId", required = false) Long userId,
             @RequestParam(value = "categoryId", required = false) Long categoryId,
             @RequestParam(value = "search", required = false) String search,
             Model model
     ) {
+        User user = sessionUser.getUser();
+        model.addAttribute("userId", user != null ? user.getId() : null);
         model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("userId", userId);
 
         if (search != null && !search.isEmpty()) {
             model.addAttribute("products", productService.searchProducts(search));
@@ -36,5 +41,4 @@ public class HomeController {
         }
         return "home";
     }
-
 }

@@ -22,7 +22,6 @@
     <td th:text="${cartItem.product.price}"></td>
     <td>
       <form th:action="@{/cart/update}" method="post">
-        <input type="hidden" name="userId" th:value="${userId}"/>
         <input type="hidden" name="productId" th:value="${cartItem.product.id}"/>
         <label>
           <input type="number" name="quantity" th:value="${cartItem.quantity}" min="1"/>
@@ -32,7 +31,6 @@
     </td>
     <td>
       <form th:action="@{/cart/remove}" method="post">
-        <input type="hidden" name="userId" th:value="${userId}"/>
         <input type="hidden" name="productId" th:value="${cartItem.product.id}"/>
         <button type="submit">Remove</button>
       </form>
@@ -43,13 +41,11 @@
 
 <h3>Total: <span th:text="${total}"></span> SEK</h3>
 
-<a th:href="@{/home(userId=${userId})}">Continue shopping</a>
+<a th:href="@{/home}">Continue shopping</a>
 
 <form th:action="@{/order/place}" method="post">
-  <input type="hidden" name="userId" th:value="${userId}"/>
   <button type="submit">Proceed to Checkout</button>
 </form>
-
 
 </body>
 </html>
