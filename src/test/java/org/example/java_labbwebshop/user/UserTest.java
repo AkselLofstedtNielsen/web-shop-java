@@ -1,5 +1,7 @@
 package org.example.java_labbwebshop.user;
 
+import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
+import org.example.java_labbwebshop.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,16 +34,29 @@ class UserTest {
 
     @Test
     public void testRegisterUser() {
-        User newUser = new User();
-        newUser.setEmail("new@test.com");
-        newUser.setPassword("Testing123");
+        // Arrange
+        CreateOrUpdateUserDto dto = new CreateOrUpdateUserDto();
+        dto.setEmail("new@test.com");
+        dto.setPassword("Testing123");
+        dto.setRole("USER");
 
-        when(userRepository.save(newUser)).thenReturn(newUser);
+        User expectedUser = new User();
+        expectedUser.setEmail(dto.getEmail());
+        expectedUser.setPassword(dto.getPassword());
+        expectedUser.setRole(User.Role.USER);
 
-        userService.registerUser(newUser);
+        when(userRepository.save(any(User.class))).thenReturn(expectedUser);
 
-        verify(userRepository, times(1)).save(newUser);
+        // Act
+        UserDto result = userService.create(dto);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(dto.getEmail(), result.getEmail());
+        assertEquals("USER", result.getRole());
+        verify(userRepository, times(1)).save(any(User.class));
     }
+
 
     @Test
     public void testLoginUser() {

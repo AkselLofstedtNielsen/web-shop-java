@@ -1,9 +1,9 @@
 package org.example.java_labbwebshop.cart;
 
+import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.example.java_labbwebshop.user.SessionUser;
 import org.example.java_labbwebshop.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Controller
 public class CartController {
 
-    @Autowired
     private CartService cartService;
 
-    @Autowired
     private SessionUser sessionUser;
 
     @GetMapping("/cart")

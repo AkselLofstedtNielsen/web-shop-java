@@ -1,6 +1,7 @@
 package org.example.java_labbwebshop.order.service;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.cart.CartService;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.example.java_labbwebshop.order.model.Order;
@@ -8,21 +9,18 @@ import org.example.java_labbwebshop.order.model.OrderItem;
 import org.example.java_labbwebshop.order.repositories.OrderItemRepository;
 import org.example.java_labbwebshop.order.repositories.OrderRepository;
 import org.example.java_labbwebshop.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class OrderService {
 
-    @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
     private OrderItemRepository orderItemRepository;
 
-    @Autowired
     private CartService cartService;
 
     @Transactional

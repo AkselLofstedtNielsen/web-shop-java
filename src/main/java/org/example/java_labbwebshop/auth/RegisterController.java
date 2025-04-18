@@ -1,10 +1,8 @@
 package org.example.java_labbwebshop.auth;
 
-import jakarta.validation.Valid;
-import org.example.java_labbwebshop.user.User;
-import org.example.java_labbwebshop.user.UserRepository;
+import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,38 +10,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+@AllArgsConstructor
 @Controller
 public class RegisterController {
 
-    @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new CreateOrUpdateUserDto());
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+    public String registerUser(@ModelAttribute("user") CreateOrUpdateUserDto userDto, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
+            model.addAttribute("user", userDto);
             return "register";
         }
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (userService.emailExists(userDto.getEmail())) {
             bindingResult.rejectValue("email", "error.user", "Email is already in use.");
-            model.addAttribute("user", user);
+            model.addAttribute("user", userDto);
             return "register";
         }
 
-        userService.registerUser(user);
+        userService.create(userDto);
         return "redirect:/login";
     }
 
 }
+
 

@@ -8,15 +8,13 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.order.model.Order;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
