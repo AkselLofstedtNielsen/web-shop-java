@@ -6,25 +6,20 @@ import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
 public class UserMapper {
 
     public static UserDto toDto(User user) {
-        UserDto dto = new UserDto();
-        dto.setId(user.getId());
-        dto.setEmail(user.getEmail());
-        dto.setRole(user.getRole().name());
-        return dto;
+        return UserDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .role(user.getRole().name())
+                .build();
     }
 
     public static User fromDto(CreateOrUpdateUserDto dto) {
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-
-        if (dto.getRole() != null && !dto.getRole().isBlank()) {
-            user.setRole(User.Role.valueOf(dto.getRole().toUpperCase()));
-        } else {
-            user.setRole(User.Role.USER); // fallback till USER
-        }
-
-        return user;
+        return User.builder()
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .role((dto.getRole() != null && !dto.getRole().isBlank())
+                        ? User.Role.valueOf(dto.getRole().toUpperCase())
+                        : User.Role.USER)
+                .build();
     }
-
 }

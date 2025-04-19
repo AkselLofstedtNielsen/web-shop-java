@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: java_labb-webshop
+  datasource:
+    url: jdbc:mysql://localhost:3306/webshop
+    username: root
+    password: hej123
+  jpa:
+    hibernate:
+      ddl-auto: create

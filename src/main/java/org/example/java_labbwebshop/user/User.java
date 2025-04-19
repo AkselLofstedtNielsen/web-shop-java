@@ -5,15 +5,21 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.order.model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Data
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +48,8 @@ public class User {
     //Tex.. Ifall vi vill ändra så orders ska finnas kvar ifall en User blir borttagen:
     // @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    @Builder.Default
     private List<Order> orders = new ArrayList<>();
 
     public enum Role {
