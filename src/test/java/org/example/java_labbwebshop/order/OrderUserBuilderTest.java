@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class OrderBuilderTest {
+public class OrderUserBuilderTest {
 
     @Test
     public void testOrderBuilderWithExplicitFields() {

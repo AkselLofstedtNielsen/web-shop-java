@@ -22,6 +22,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String orderNr;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

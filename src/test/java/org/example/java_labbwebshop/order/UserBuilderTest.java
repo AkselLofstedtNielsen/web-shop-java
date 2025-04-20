@@ -2,7 +2,7 @@ package org.example.java_labbwebshop.order;
 
 import org.example.java_labbwebshop.user.User;
 
-public class BuilderTest {
+public class UserBuilderTest {
     public static void main(String[] args) {
         User user = User.builder()
                 .email("micke@example.com")
