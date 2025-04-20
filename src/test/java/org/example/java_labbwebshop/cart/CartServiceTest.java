@@ -1,12 +1,8 @@
 package org.example.java_labbwebshop.cart;
 
-import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.cart.model.CartItem;
-import org.example.java_labbwebshop.cart.repositories.CartItemRepository;
-import org.example.java_labbwebshop.cart.repositories.CartRepository;
 import org.example.java_labbwebshop.product.Product;
 import org.example.java_labbwebshop.product.ProductRepository;
-import org.example.java_labbwebshop.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -23,74 +19,63 @@ import static org.mockito.Mockito.*;
 class CartServiceTest {
 
     @Mock
-    private CartRepository cartRepository;
-
-    @Mock
-    private CartItemRepository cartItemRepository;
-
-    @Mock
     private ProductRepository productRepository;
 
     @InjectMocks
     private CartService cartService;
 
-    private User testUser;
     private Product testProduct;
-    private Cart testCart;
 
     @BeforeEach
-    public void setUp(){
-        //MockitoAnnotations.initMocks(this); Onödig med JUnit5 extension, @ExtendWith(MockitoExtension.class) = skapar upp mock obj
-
-        testUser = new User();
-        testUser.setId(1L);
-        testUser.setEmail("test@tester.com");
-
+    public void setUp() {
         testProduct = new Product();
         testProduct.setId(1L);
         testProduct.setName("TestProduct");
         testProduct.setPrice(new BigDecimal("12.0"));
-
-        testCart = new Cart();
-        testCart.setId(1L);
-        testCart.setUser(testUser);
-        testCart.setCartItems(new ArrayList<>());
-
-        CartItem testCartItem = new CartItem();
-        testCartItem.setId(1L);
-        testCartItem.setCart(testCart);
-        testCartItem.setProduct(testProduct);
-        testCartItem.setQuantity(2);
-
     }
 
     @Test
-    public void testGetCartForUser(){
-        when(cartRepository.findByUser(testUser)).thenReturn(Optional.of(testCart));
+    public void testAddToCart() {
+        when(productRepository.findById(1L)).thenReturn(Optional.of(testProduct));
 
-        Cart result = cartService.getCartForUser(testUser);
+        cartService.addToCart(1L);
+        List<CartItem> cartItems = cartService.getCartItems();
 
-        assertNotNull(result);
-        assertEquals(testCart, result);
-        verify(cartRepository).findByUser(testUser);
-        verify(cartRepository, never()).save(any(Cart.class));
+        assertEquals(1, cartItems.size());
+        assertEquals("TestProduct", cartItems.get(0).getProduct().getName());
+        assertEquals(1, cartItems.get(0).getQuantity());
     }
 
     @Test
-    public void testAddCartItem(){
-        Long productId = 1L;
-        when(cartRepository.findByUser(testUser)).thenReturn(Optional.of(testCart));
-        when(productRepository.findById(productId)).thenReturn(Optional.of(testProduct));
+    public void testUpdateQuantity() {
+        when(productRepository.findById(1L)).thenReturn(Optional.of(testProduct));
 
-        cartService.addToCart(testUser, productId);
+        cartService.addToCart(1L);
+        cartService.updateQuantity(1L, 3);
 
-        verify(cartItemRepository).save(argThat(item ->
-                item.getCart().equals(testCart) &&
-                        item.getProduct().equals(testProduct) &&
-                        item.getQuantity() == 1
-        ));
+        List<CartItem> cartItems = cartService.getCartItems();
+        assertEquals(3, cartItems.get(0).getQuantity());
     }
 
+    @Test
+    public void testRemoveItem() {
+        when(productRepository.findById(1L)).thenReturn(Optional.of(testProduct));
 
+        cartService.addToCart(1L);
+        cartService.removeItem(1L);
 
+        List<CartItem> cartItems = cartService.getCartItems();
+        assertTrue(cartItems.isEmpty());
+    }
+
+    @Test
+    public void testGetTotal() {
+        when(productRepository.findById(1L)).thenReturn(Optional.of(testProduct));
+
+        cartService.addToCart(1L);
+        cartService.updateQuantity(1L, 2);
+        double total = cartService.getTotal();
+
+        assertEquals(24.0, total);
+    }
 }

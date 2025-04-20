@@ -1,13 +1,19 @@
 package org.example.java_labbwebshop.order.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.java_labbwebshop.order.OrderStatus;
 import org.example.java_labbwebshop.user.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "orders")

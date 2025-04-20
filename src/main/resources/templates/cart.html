@@ -19,13 +19,11 @@
   <tbody>
   <tr th:each="cartItem : ${cartItems}">
     <td th:text="${cartItem.product.name}"></td>
-    <td th:text="${cartItem.product.price}"></td>
+    <td th:text="${#numbers.formatDecimal(cartItem.product.price, 1, 'COMMA', 2, 'POINT')} + ' SEK'"></td>
     <td>
       <form th:action="@{/cart/update}" method="post">
         <input type="hidden" name="productId" th:value="${cartItem.product.id}"/>
-        <label>
-          <input type="number" name="quantity" th:value="${cartItem.quantity}" min="1"/>
-        </label>
+        <input type="number" name="quantity" th:value="${cartItem.quantity}" min="1" required/>
         <button type="submit">Update</button>
       </form>
     </td>
@@ -39,9 +37,11 @@
   </tbody>
 </table>
 
-<h3>Total: <span th:text="${total}"></span> SEK</h3>
+<h3>Total: <span th:text="${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')} + ' SEK'"></span></h3>
 
-<a th:href="@{/home}">Continue shopping</a>
+<div>
+  <a th:href="@{/home}">Continue shopping</a>
+</div>
 
 <form th:action="@{/order/place}" method="post">
   <button type="submit">Proceed to Checkout</button>

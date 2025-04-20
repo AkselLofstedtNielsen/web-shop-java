@@ -35,16 +35,19 @@ public class OrderController {
     }
 
     @GetMapping("/order/confirmation")
-    public String orderConfirmation(@RequestParam("orderId") Long orderId, Model model) {
+    public String showConfirmation(@RequestParam("orderId") Long orderId, Model model) {
         try {
             Order order = orderService.getOrderById(orderId);
             BigDecimal totalPrice = orderService.calculateTotalPrice(order);
+
             model.addAttribute("order", order);
             model.addAttribute("totalPrice", totalPrice);
+
             return "orderconfirmation";
         } catch (RuntimeException e) {
             return "redirect:/cart?error=orderNotFound";
         }
     }
+
 
 }

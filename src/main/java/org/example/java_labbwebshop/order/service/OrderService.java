@@ -6,7 +6,6 @@ import org.example.java_labbwebshop.cart.CartService;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.example.java_labbwebshop.order.model.Order;
 import org.example.java_labbwebshop.order.model.OrderItem;
-import org.example.java_labbwebshop.order.repositories.OrderItemRepository;
 import org.example.java_labbwebshop.order.repositories.OrderRepository;
 import org.example.java_labbwebshop.user.User;
 import org.springframework.stereotype.Service;
@@ -17,36 +16,34 @@ import java.util.List;
 @Service
 public class OrderService {
 
-    private OrderRepository orderRepository;
-
-    private OrderItemRepository orderItemRepository;
-
-    private CartService cartService;
+    private final OrderRepository orderRepository;
+    private final CartService cartService;
 
     @Transactional
     public Order placeOrder(User user) {
-        List<CartItem> cartItems = cartService.getCartItemsForUser(user);
+        List<CartItem> cartItems = cartService.getCartItems();
 
-        if (cartItems.isEmpty()) {
-            throw new RuntimeException("Cart is empty, cannot place order.");
-        }
+        List<OrderItem> orderItems = cartItems.stream()
+                .map(cartItem -> OrderItem.builder()
+                        .product(cartItem.getProduct())
+                        .quantity(cartItem.getQuantity())
+                        .build())
+                .toList();
 
-        Order order = new Order();
-        order.setUser(user);
-        order = orderRepository.save(order);
+        Order order = Order.builder()
+                .user(user)
+                .orderItems(orderItems)
+                .orderDate(java.time.LocalDateTime.now())
+                .status(org.example.java_labbwebshop.order.OrderStatus.PENDING)
+                .build();
 
-        for (CartItem cartItem : cartItems) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setProduct(cartItem.getProduct());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItemRepository.save(orderItem);
-        }
+// Sätter relationen från OrderItem tillbaka till Order
+        order.getOrderItems().forEach(item -> item.setOrder(order));
 
-        order.setOrderItems(orderItemRepository.findByOrder(order));
-
+// Spara ordern och alla items
         orderRepository.save(order);
-        cartService.clearCart(user);
+
+        cartService.clearCart();
 
         return order;
     }
@@ -64,4 +61,3 @@ public class OrderService {
     }
 
 }
-

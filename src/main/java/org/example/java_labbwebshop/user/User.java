@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.order.model.Order;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +40,6 @@ public class User {
             message = "Password must contain at least one uppercase letter and one number"
     )
     private String password;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Cart cart;
 
     //Tex.. Ifall vi vill ändra så orders ska finnas kvar ifall en User blir borttagen:
     // @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
