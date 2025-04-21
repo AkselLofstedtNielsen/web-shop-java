@@ -3,8 +3,8 @@ package org.example.java_labbwebshop.home;
 import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.category.CategoryService;
 import org.example.java_labbwebshop.product.ProductService;
-import org.example.java_labbwebshop.user.SessionUser;
-import org.example.java_labbwebshop.user.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,10 @@ public class HomeController {
 
     private ProductService productService;
 
-    private SessionUser sessionUser;
+    @GetMapping("/")
+    public String redirectToHome() {
+        return "redirect:/home";
+    }
 
     @GetMapping("/home")
     public String showHomePage(
@@ -26,8 +29,6 @@ public class HomeController {
             @RequestParam(value = "search", required = false) String search,
             Model model
     ) {
-        User user = sessionUser.getUser();
-        model.addAttribute("userId", user != null ? user.getId() : null);
         model.addAttribute("categories", categoryService.getAllCategories());
 
         if (search != null && !search.isEmpty()) {
@@ -37,6 +38,8 @@ public class HomeController {
         } else {
             model.addAttribute("products", productService.getAllProducts());
         }
+
         return "home";
     }
+
 }

@@ -3,6 +3,7 @@ package org.example.java_labbwebshop.user;
 import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
 import org.example.java_labbwebshop.user.dto.UserDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -13,11 +14,14 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     public UserDto create(CreateOrUpdateUserDto createUserDto) {
         User user = UserMapper.fromDto(createUserDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return UserMapper.toDto(userRepository.save(user));
     }
+
 
     public List<UserDto> getAll() {
         return userRepository.findAll().stream().map(UserMapper::toDto).collect(Collectors.toList());
@@ -39,7 +43,7 @@ public class UserService {
     public UserDto update(Long id, CreateOrUpdateUserDto updateUserDto) {
         return userRepository.findById(id).map(user -> {
             user.setEmail(updateUserDto.getEmail());
-            user.setPassword(updateUserDto.getPassword());
+            user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
             user.setRole(User.Role.valueOf(updateUserDto.getRole().toUpperCase()));
             return UserMapper.toDto(userRepository.save(user));
         }).orElse(null);
@@ -53,19 +57,8 @@ public class UserService {
         return userRepository.findByEmail(email).isPresent();
     }
 
-
-    public Optional<User> login(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            return user;
-        }
-        return Optional.empty();
-    }
-
     public Optional<User> findById(Long userId) {
         return userRepository.findById(userId);
     }
 
 }
-

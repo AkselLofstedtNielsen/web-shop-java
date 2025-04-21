@@ -3,8 +3,10 @@ package org.example.java_labbwebshop.order.controller;
 import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.order.model.Order;
 import org.example.java_labbwebshop.order.service.OrderService;
-import org.example.java_labbwebshop.user.SessionUser;
 import org.example.java_labbwebshop.user.User;
+import org.example.java_labbwebshop.user.UserRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +20,16 @@ public class OrderController {
 
     private OrderService orderService;
 
-    private SessionUser sessionUser;
+    private UserRepository userRepository;
 
     @PostMapping("/order/place")
-    public String placeOrder() {
-        User user = sessionUser.getUser();
-        if (user == null) {
-            return "redirect:/login?error=notfound";
-        }
+    public String placeOrder(@AuthenticationPrincipal UserDetails userDetails) {
+
+        String email = userDetails.getUsername();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         try {
             Order order = orderService.placeOrder(user);
             return "redirect:/order/confirmation?orderId=" + order.getId();
@@ -33,6 +37,7 @@ public class OrderController {
             return "redirect:/cart?error=" + e.getMessage();
         }
     }
+
 
     @GetMapping("/order/confirmation")
     public String showConfirmation(@RequestParam("orderId") Long orderId, Model model) {

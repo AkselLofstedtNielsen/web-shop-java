@@ -8,10 +8,16 @@
 
 <h1>Bronx' Vinyl</h1>
 
-<!-- Gå till varukorgen -->
-<form th:action="@{/cart/show}" method="post">
-  <button type="submit">Go to cart</button>
-</form>
+<!-- Navigation buttons -->
+<div style="display: flex; gap: 10px; margin-bottom: 20px;">
+  <form th:action="@{/cart/show}" method="post">
+    <button type="submit">Go to cart</button>
+  </form>
+
+  <form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+  </form>
+</div>
 
 <h2>Sök produkt</h2>
 <form th:action="@{/home}" method="get">
