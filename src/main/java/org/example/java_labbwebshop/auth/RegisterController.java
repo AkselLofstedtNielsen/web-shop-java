@@ -1,5 +1,6 @@
 package org.example.java_labbwebshop.auth;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.user.UserService;
 import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
@@ -23,7 +24,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") CreateOrUpdateUserDto userDto, BindingResult bindingResult, Model model) {
+    public String registerUser(@Valid @ModelAttribute("user") CreateOrUpdateUserDto userDto, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", userDto);
@@ -41,5 +42,3 @@ public class RegisterController {
     }
 
 }
-
-

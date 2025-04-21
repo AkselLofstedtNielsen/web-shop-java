@@ -9,16 +9,16 @@
 
 <form th:action="@{/register}" th:object="${user}" method="post">
   <label>
-    <input type="email" th:field="*{email}" placeholder="E-post" required>
+    <input type="email" th:field="*{email}" placeholder="Email" required>
   </label>
   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
 
   <label>
-    <input type="password" th:field="*{password}" placeholder="Lösenord" required>
+    <input type="password" th:field="*{password}" placeholder="Password" required>
   </label>
   <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></span>
 
-  <button type="submit">Registrera</button>
+  <button type="submit">Register</button>
 </form>
 
 <p style="color: red;">

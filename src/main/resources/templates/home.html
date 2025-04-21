@@ -19,10 +19,10 @@
   </form>
 </div>
 
-<h2>Sök produkt</h2>
+<h2>Search product</h2>
 <form th:action="@{/home}" method="get">
-  <input type="text" name="search" placeholder="Sök på produktnamn" />
-  <button type="submit">Sök</button>
+  <input type="text" name="search" placeholder="Search by product name" />
+  <button type="submit">Search</button>
 </form>
 
 <h2>Genre</h2>
@@ -36,10 +36,10 @@
 <ul>
   <li th:each="product : ${products}">
     <span th:text="${product.name}"></span> -
-    <span th:text="${product.price}"></span> SEK
+    <span th:text="${product.price}"></span> EUR
     <form th:action="@{/cart/add}" method="post">
       <input type="hidden" name="productId" th:value="${product.id}" />
-      <button type="submit">Lägg till i varukorg</button>
+      <button type="submit">Add to cart</button>
     </form>
   </li>
 </ul>

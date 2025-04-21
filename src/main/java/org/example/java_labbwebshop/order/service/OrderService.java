@@ -42,26 +42,26 @@ public class OrderService {
                 .status(org.example.java_labbwebshop.order.OrderStatus.PENDING)
                 .build();
 
-        // Sätter relationen från OrderItem tillbaka till Order
+        // Set the relationship from OrderItem back to Order
         order.getOrderItems().forEach(item -> item.setOrder(order));
 
-        String date = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE); // t.ex. 20250420
-        long random = (long) (Math.random() * 1000); // enkel pseudo-unik suffix
+        String date = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE); // e.g. 20250420
+        long random = (long) (Math.random() * 1000); // simple pseudo-unique suffix
         order.setOrderNr("ORD-" + date + "-" + String.format("%03d", random));
 
-        // Spara ordern och alla items
+        // Save the order and all items
         orderRepository.save(order);
 
-        // Email-bekräftelse
+        // Email confirmation
         StringBuilder emailContent = new StringBuilder();
 
-        emailContent.append("<h1>Tack för din beställning!</h1>");
-        emailContent.append("<p>Ordernummer: ").append(order.getOrderNr()).append("</p>");
+        emailContent.append("<h1>Thank you for your order!</h1>");
+        emailContent.append("<p>Order number: ").append(order.getOrderNr()).append("</p>");
         emailContent.append("<table border='1' cellpadding='5' cellspacing='0'>");
         emailContent.append("<thead><tr>")
-                .append("<th>Produkt</th>")
-                .append("<th>Antal</th>")
-                .append("<th>Pris</th>")
+                .append("<th>Product</th>")
+                .append("<th>Quantity</th>")
+                .append("<th>Price</th>")
                 .append("</tr></thead>");
         emailContent.append("<tbody>");
 
@@ -69,19 +69,19 @@ public class OrderService {
             emailContent.append("<tr>")
                     .append("<td>").append(item.getProduct().getName()).append("</td>")
                     .append("<td>").append(item.getQuantity()).append("</td>")
-                    .append("<td>").append(item.getProduct().getPrice()).append(" kr</td>")
+                    .append("<td>").append(item.getProduct().getPrice()).append(" EUR</td>")
                     .append("</tr>");
         }
 
         emailContent.append("</tbody></table>");
 
         BigDecimal totalPrice = calculateTotalPrice(order);
-        emailContent.append("<h3>Totalt: ").append(totalPrice).append(" kr</h3>");
+        emailContent.append("<h3>Total: ").append(totalPrice).append(" EUR</h3>");
 
 
         mailService.sendOrderConfirmation(
                 user.getEmail(),
-                "Tack för din beställning!",
+                "Thank you for your order!",
                 emailContent.toString()
         );
 
