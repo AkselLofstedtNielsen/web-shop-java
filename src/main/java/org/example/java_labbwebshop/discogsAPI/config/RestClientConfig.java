@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.discogs.config;
+package org.example.java_labbwebshop.discogsAPI.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

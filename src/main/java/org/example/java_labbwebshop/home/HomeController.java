@@ -1,8 +1,8 @@
 package org.example.java_labbwebshop.home;
 
 import lombok.AllArgsConstructor;
-import org.example.java_labbwebshop.discogs.model.DiscogsResult;
-import org.example.java_labbwebshop.discogs.service.DiscogsService;
+import org.example.java_labbwebshop.discogsAPI.model.DiscogsResult;
+import org.example.java_labbwebshop.discogsAPI.service.DiscogsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

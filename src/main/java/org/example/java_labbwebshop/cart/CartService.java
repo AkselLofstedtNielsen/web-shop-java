@@ -5,7 +5,7 @@ import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.example.java_labbwebshop.product.Product;
 import org.example.java_labbwebshop.product.ProductRepository;
-import org.example.java_labbwebshop.discogs.service.DiscogsService;
+import org.example.java_labbwebshop.discogsAPI.service.DiscogsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

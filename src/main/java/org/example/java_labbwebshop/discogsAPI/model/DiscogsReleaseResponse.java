@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.discogs.model;
+package org.example.java_labbwebshop.discogsAPI.model;
 
 import java.util.List;
 

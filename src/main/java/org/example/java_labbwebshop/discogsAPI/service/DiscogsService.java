@@ -1,19 +1,15 @@
-package org.example.java_labbwebshop.discogs.service;
+package org.example.java_labbwebshop.discogsAPI.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.category.Category;
 import org.example.java_labbwebshop.category.CategoryRepository;
-import org.example.java_labbwebshop.discogs.model.DiscogsReleaseResponse;
-import org.example.java_labbwebshop.discogs.model.DiscogsResult;
-import org.example.java_labbwebshop.discogs.model.DiscogsSearchResponse;
+import org.example.java_labbwebshop.discogsAPI.client.DiscogsClient;
+import org.example.java_labbwebshop.discogsAPI.model.DiscogsReleaseResponse;
+import org.example.java_labbwebshop.discogsAPI.model.DiscogsResult;
 import org.example.java_labbwebshop.product.Product;
 import org.example.java_labbwebshop.product.ProductRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.util.UriUtils;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -21,37 +17,16 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class DiscogsService {
 
-    private final RestClient restClient;
+    private final DiscogsClient discogsClient;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
     public List<DiscogsResult> searchReleases(String query) {
-        String url = "/database/search?q=" + UriUtils.encode(query, StandardCharsets.UTF_8) + "&type=release";
-
-        DiscogsSearchResponse response = restClient.get()
-                .uri(url)
-                .retrieve()
-                .body(DiscogsSearchResponse.class);
-
-        if (response != null && response.results() != null) {
-            return response.results();
-        }
-
-        return new ArrayList<>();
+        return discogsClient.searchReleases(query);
     }
 
     public DiscogsReleaseResponse getReleaseById(int id) {
-        try {
-            String url = "/releases/" + id;
-
-            return restClient.get()
-                    .uri(url)
-                    .retrieve()
-                    .body(DiscogsReleaseResponse.class);
-        } catch (Exception e) {
-            System.err.println("Error fetching release with ID " + id + ": " + e.getMessage());
-            return new DiscogsReleaseResponse(id, "Unknown Release " + id, List.of("Unknown"));
-        }
+        return discogsClient.getReleaseById(id);
     }
 
     public Product saveReleaseAsProduct(int releaseId) {
