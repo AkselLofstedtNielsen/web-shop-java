@@ -23,7 +23,6 @@ public class OrderService {
     private final CartService cartService;
     private final MailService mailService;
 
-
     @Transactional
     public Order placeOrder(User user) {
         List<CartItem> cartItems = cartService.getCartItems();

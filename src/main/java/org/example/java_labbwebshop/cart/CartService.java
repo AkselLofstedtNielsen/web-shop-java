@@ -5,6 +5,7 @@ import org.example.java_labbwebshop.cart.model.Cart;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.example.java_labbwebshop.product.Product;
 import org.example.java_labbwebshop.product.ProductRepository;
+import org.example.java_labbwebshop.discogs.service.DiscogsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,16 @@ public class CartService {
 
     private final Cart cart;
     private final ProductRepository productRepository;
+    private final DiscogsService discogsService;
 
     public void addToCart(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+        cart.addProduct(product);
+    }
+
+    public void addReleaseToCart(int releaseId) {
+        Product product = discogsService.saveReleaseAsProduct(releaseId);
         cart.addProduct(product);
     }
 
@@ -44,4 +51,3 @@ public class CartService {
         return cart.getCartItems();
     }
 }
-

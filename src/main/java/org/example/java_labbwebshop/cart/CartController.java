@@ -33,8 +33,8 @@ public class CartController {
     }
 
     @PostMapping("/cart/add")
-    public String addToCart(@RequestParam("productId") Long productId) {
-        cartService.addToCart(productId);
+    public String addToCart(@RequestParam("releaseId") int releaseId) {
+        cartService.addReleaseToCart(releaseId);
         return "redirect:/home";
     }
 

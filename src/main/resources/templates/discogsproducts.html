@@ -1,0 +1,15 @@
+<!-- templates/discogsproducts.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Discogs Results</title>
+</head>
+<body>
+<h1>Discogs Search Results</h1>
+<div th:each="product : ${products}">
+  <h2 th:text="${product.name}">Product Name</h2>
+  <p th:text="'Price: ' + ${product.price} + ' SEK'"></p>
+  <p th:text="'Category: ' + ${product.category.name}"></p>
+</div>
+</body>
+</html>

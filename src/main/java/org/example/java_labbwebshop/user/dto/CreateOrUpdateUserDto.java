@@ -25,6 +25,5 @@ public class CreateOrUpdateUserDto {
             message = "Password must contain at least one uppercase letter and one number"
     )
     private String password;
-
     private String role;
 }

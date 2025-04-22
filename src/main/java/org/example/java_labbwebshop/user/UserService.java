@@ -22,7 +22,6 @@ public class UserService {
         return UserMapper.toDto(userRepository.save(user));
     }
 
-
     public List<UserDto> getAll() {
         return userRepository.findAll().stream().map(UserMapper::toDto).collect(Collectors.toList());
     }

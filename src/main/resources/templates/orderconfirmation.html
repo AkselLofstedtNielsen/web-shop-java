@@ -8,7 +8,7 @@
 <h1>Order Confirmation</h1>
 
 <h2>Order Details</h2>
-<p>Order ID: <span th:text="${order.id}"></span></p>
+<p>Order Number: <span th:text="${order.orderNr}"></span></p>
 <p>Order Date: <span th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></span></p>
 <p>Status: <span th:text="${order.status}"></span></p>
 
@@ -29,7 +29,7 @@
   </tbody>
 </table>
 
-<h3>Total Price: <span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}"></span> SEK</h3>
+<h3>Total Price: <span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}"></span> EUR</h3>
 
 <a th:href="@{/home(userId=${order.user.id})}">Back to Home</a>
 </body>

@@ -62,9 +62,6 @@ class UserTest {
         verify(userRepository, times(1)).save(any(User.class));
     }
 
-
-    // Removed testLoginUser as the login method doesn't exist in UserService
-
     @Test
     public void testFindUserById() {
         Long id = 1L;

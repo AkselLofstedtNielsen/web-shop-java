@@ -3,6 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Home</title>
+  <style>
+    .release-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .release-card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .genre-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .genre-tag {
+      background-color: #f0f0f0;
+      padding: 5px 10px;
+      border-radius: 15px;
+      text-decoration: none;
+      color: #333;
+    }
+    .genre-tag.active {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
@@ -19,30 +48,35 @@
   </form>
 </div>
 
-<h2>Search product</h2>
+<h2>Search releases</h2>
 <form th:action="@{/home}" method="get">
-  <input type="text" name="search" placeholder="Search by product name" />
+  <input type="text" name="search" th:value="${search}" placeholder="Search by release title" />
   <button type="submit">Search</button>
 </form>
 
-<h2>Genre</h2>
-<ul>
-  <li th:each="category : ${categories}">
-    <a th:href="@{/home(categoryId=${category.id})}" th:text="${category.name}"></a>
-  </li>
-</ul>
+<h2>Genres</h2>
+<div class="genre-list">
+  <a class="genre-tag" th:classappend="${selectedGenre == null} ? 'active' : ''" th:href="@{/home}">All</a>
+  <a class="genre-tag" th:each="g : ${genres}" 
+     th:classappend="${g == selectedGenre} ? 'active' : ''"
+     th:href="@{/home(genre=${g})}" 
+     th:text="${g}"></a>
+</div>
 
 <h2>Releases</h2>
-<ul>
-  <li th:each="product : ${products}">
-    <span th:text="${product.name}"></span> -
-    <span th:text="${product.price}"></span> EUR
+<div class="release-list">
+  <div class="release-card" th:each="release : ${releases}">
+    <h3 th:text="${release.title}">Release Title</h3>
+    <p>
+      <strong>Genres:</strong> 
+      <span th:text="${release.genre != null && !release.genre().isEmpty() ? release.genre().get(0) : 'Unknown'}"></span>
+    </p>
     <form th:action="@{/cart/add}" method="post">
-      <input type="hidden" name="productId" th:value="${product.id}" />
+      <input type="hidden" name="releaseId" th:value="${release.id()}" />
       <button type="submit">Add to cart</button>
     </form>
-  </li>
-</ul>
+  </div>
+</div>
 
 </body>
 </html>

@@ -29,8 +29,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    //For example, if we want to change so orders remain even if a User is deleted:
-    // @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 
     @Builder.Default
