@@ -23,3 +23,11 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+
+discogs:
+  base-url: https://api.discogs.com
+  token: TCdgqdBNaMimdlfMJJikcKWvrfDlqFbjtGCosbaj
+  endpoints:
+    search: /database/search
+    release: /releases
+

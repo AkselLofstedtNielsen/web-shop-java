@@ -2,10 +2,12 @@ package org.example.java_labbwebshop.user;
 
 import org.example.java_labbwebshop.user.dto.UserDto;
 import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
-    public static UserDto toDto(User user) {
+    public UserDto toDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -13,7 +15,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static User fromDto(CreateOrUpdateUserDto dto) {
+    public User fromDto(CreateOrUpdateUserDto dto) {
         return User.builder()
                 .email(dto.getEmail())
                 .password(dto.getPassword())

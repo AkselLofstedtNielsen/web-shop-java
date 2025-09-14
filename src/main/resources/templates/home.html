@@ -50,16 +50,18 @@
 
 <h2>Search releases</h2>
 <form th:action="@{/home}" method="get">
-  <input type="text" name="search" th:value="${search}" placeholder="Search by release title" />
+  <label>
+    <input type="text" name="search" th:value="${search}" placeholder="Search by release title" />
+  </label>
   <button type="submit">Search</button>
 </form>
 
 <h2>Genres</h2>
 <div class="genre-list">
   <a class="genre-tag" th:classappend="${selectedGenre == null} ? 'active' : ''" th:href="@{/home}">All</a>
-  <a class="genre-tag" th:each="g : ${genres}" 
+  <a class="genre-tag" th:each="g : ${genres}"
      th:classappend="${g == selectedGenre} ? 'active' : ''"
-     th:href="@{/home(genre=${g})}" 
+     th:href="@{/home(genre=${g})}"
      th:text="${g}"></a>
 </div>
 
@@ -68,7 +70,7 @@
   <div class="release-card" th:each="release : ${releases}">
     <h3 th:text="${release.title}">Release Title</h3>
     <p>
-      <strong>Genres:</strong> 
+      <strong>Genres:</strong>
       <span th:text="${release.genre != null && !release.genre().isEmpty() ? release.genre().get(0) : 'Unknown'}"></span>
     </p>
     <form th:action="@{/cart/add}" method="post">

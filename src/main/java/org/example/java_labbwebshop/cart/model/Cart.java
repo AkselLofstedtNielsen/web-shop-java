@@ -13,19 +13,30 @@ import java.util.List;
 @SessionScope
 public class Cart {
 
-    private List<CartItem> cartItems = new ArrayList<>();
+    private final List<CartItem> cartItems = new ArrayList<>();
 
     public void addProduct(Product product) {
-        for (CartItem item : cartItems) {
-            if (item.getProduct().getId().equals(product.getId())) {
-                item.setQuantity(item.getQuantity() + 1);
-                return;
-            }
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null");
         }
-        cartItems.add(new CartItem(product, 1));
+
+        cartItems.stream()
+                .filter(item -> item.getProduct().getId().equals(product.getId()))
+                .findFirst()
+                .ifPresentOrElse(
+                        item -> item.setQuantity(item.getQuantity() + 1),
+                        () -> cartItems.add(new CartItem(product, 1))
+                );
     }
 
     public void updateProduct(Product product, int quantity) {
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null");
+        }
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+
         cartItems.removeIf(item -> item.getProduct().getId().equals(product.getId()));
         if (quantity > 0) {
             cartItems.add(new CartItem(product, quantity));
@@ -36,10 +47,11 @@ public class Cart {
         cartItems.removeIf(item -> item.getProduct().getId().equals(productId));
     }
 
-    public double getTotal() {
+    public BigDecimal getTotal() {
         return cartItems.stream()
-                .mapToDouble(item -> item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())).doubleValue())
-                .sum();
+                .map(item -> item.getProduct().getPrice()
+                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void clear() {

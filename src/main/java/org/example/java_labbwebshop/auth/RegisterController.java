@@ -1,7 +1,7 @@
 package org.example.java_labbwebshop.auth;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.user.UserService;
 import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
 import org.springframework.stereotype.Controller;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Controller
 public class RegisterController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {

@@ -1,6 +1,6 @@
 package org.example.java_labbwebshop.order.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.order.model.Order;
 import org.example.java_labbwebshop.order.service.OrderService;
 import org.example.java_labbwebshop.user.User;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Controller
 public class OrderController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @PostMapping("/order/place")
     public String placeOrder(@AuthenticationPrincipal UserDetails userDetails) {
@@ -37,7 +37,6 @@ public class OrderController {
             return "redirect:/cart?error=" + e.getMessage();
         }
     }
-
 
     @GetMapping("/order/confirmation")
     public String showConfirmation(@RequestParam("orderId") Long orderId, Model model) {

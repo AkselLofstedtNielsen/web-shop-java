@@ -1,6 +1,6 @@
 package org.example.java_labbwebshop.user;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
 import org.example.java_labbwebshop.user.dto.UserDto;
 import org.springframework.http.ResponseEntity;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping
     public UserDto createUser(@RequestBody CreateOrUpdateUserDto createUserDto) {
@@ -37,15 +37,7 @@ public class UserRestController {
 
     @GetMapping("/role/{role}")
     public ResponseEntity<?> getByRole(@PathVariable String role) {
-        try {
-            User.Role parsedRole = User.Role.valueOf(role.toUpperCase());
-            List<UserDto> users = userService.findByRole(parsedRole);
-            return ResponseEntity.ok(users);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Invalid role. Valid roles are: USER, ADMIN");
-        }
+        return userService.findByRole(role);
     }
 
     @PutMapping("/{id}")

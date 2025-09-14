@@ -1,11 +1,11 @@
-package org.example.java_labbwebshop.discogsAPI.service;
+package org.example.java_labbwebshop.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.category.Category;
 import org.example.java_labbwebshop.category.CategoryRepository;
-import org.example.java_labbwebshop.discogsAPI.client.DiscogsClient;
-import org.example.java_labbwebshop.discogsAPI.model.DiscogsReleaseResponse;
-import org.example.java_labbwebshop.discogsAPI.model.DiscogsResult;
+import org.example.java_labbwebshop.api.client.DiscogsClient;
+import org.example.java_labbwebshop.api.model.DiscogsReleaseResponse;
+import org.example.java_labbwebshop.api.model.DiscogsResult;
 import org.example.java_labbwebshop.product.Product;
 import org.example.java_labbwebshop.product.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -30,24 +30,20 @@ public class DiscogsService {
     }
 
     public Product saveReleaseAsProduct(int releaseId) {
-
-        // Kontrollera om produkten redan finns i databasen
-        List<Product> existingProducts = productRepository.findByNameContainingIgnoreCase("Discogs-" + releaseId);
-        if (!existingProducts.isEmpty()) {
-            for (Product product : existingProducts) {
-                if (product.getName().startsWith("Discogs-" + releaseId + ": ")) {
-                    return product;
-                }
-            }
-        }
-
-        // Hämta releasen från Discogs API
+        // Get the release from Discogs API
         DiscogsReleaseResponse release = getReleaseById(releaseId);
         if (release == null) {
             throw new RuntimeException("Release not found with ID: " + releaseId);
         }
 
-        // Konvertera releasen till en Product och spara den
+        // Check if the product already exists in the database by title
+        List<Product> existingProducts = productRepository.findByNameContainingIgnoreCase(release.title());
+        if (!existingProducts.isEmpty()) {
+            // Return the first matching product
+            return existingProducts.get(0);
+        }
+
+        // Convert the release to a Product and save it
         return toProduct(release);
     }
 

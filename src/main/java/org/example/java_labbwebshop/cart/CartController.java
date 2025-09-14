@@ -1,6 +1,6 @@
 package org.example.java_labbwebshop.cart;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.cart.model.CartItem;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Controller
 public class CartController {
 
@@ -19,7 +20,7 @@ public class CartController {
     @GetMapping("/cart")
     public String showCart(Model model) {
         List<CartItem> cartItems = cartService.getCartItems();
-        double total = cartService.getTotal();
+        BigDecimal total = cartService.getTotal();
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);

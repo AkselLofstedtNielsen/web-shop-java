@@ -2,15 +2,19 @@ package org.example.java_labbwebshop.user;
 
 import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
 import org.example.java_labbwebshop.user.dto.UserDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.list;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,57 +26,73 @@ class UserTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private UserMapper userMapper;
+
     @InjectMocks
     private UserService userService;
 
-    private User testUser;
+    @Test
+    void findByRole_ShouldReturnUsers_WhenRoleIsValid() {
+        // given
+        User user = User.builder().id(1L).email("test@example.com").role(User.Role.USER).build();
+        UserDto userDto = UserDto.builder().id(1L).email("test@example.com").role("USER").build();
 
-    @BeforeEach
-    public void setUp() {
-        testUser = new User();
-        testUser.setId(1L);
-        testUser.setEmail("test@tester.com");
-        testUser.setPassword("Testing123");
-        testUser.setRole(User.Role.USER);
+        when(userRepository.findByRole(User.Role.USER)).thenReturn(List.of(user));
+        when(userMapper.toDto(user)).thenReturn(userDto);
+
+        // when
+        ResponseEntity<?> response = userService.findByRole("USER");
+
+        // then
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody())
+                .asInstanceOf(list(UserDto.class))
+                .containsExactly(userDto);
     }
 
     @Test
-    public void testRegisterUser() {
-        // Arrange
-        CreateOrUpdateUserDto dto = new CreateOrUpdateUserDto();
-        dto.setEmail("new@test.com");
-        dto.setPassword("Testing123");
-        dto.setRole("USER");
+    void findByRole_ShouldReturnBadRequest_WhenRoleIsInvalid() {
+        // when
+        ResponseEntity<?> response = userService.findByRole("INVALID");
 
-        User expectedUser = new User();
-        expectedUser.setEmail(dto.getEmail());
-        expectedUser.setPassword(dto.getPassword());
-        expectedUser.setRole(User.Role.USER);
+        // then
+        assertThat(response.getStatusCode().is4xxClientError()).isTrue();
+        assertThat(response.getBody()).isEqualTo("Invalid role. Valid roles are: USER, ADMIN");
+        verifyNoInteractions(userRepository, userMapper);
+    }
 
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-        when(userRepository.save(any(User.class))).thenReturn(expectedUser);
+    @Test
+    void create_ShouldEncodePasswordAndReturnDto() {
+        // given
+        CreateOrUpdateUserDto dto = new CreateOrUpdateUserDto("test@example.com", "rawpass", "USER");
+        User user = User.builder().id(1L).email(dto.getEmail()).password("rawpass").role(User.Role.USER).build();
+        User savedUser = User.builder().id(1L).email(dto.getEmail()).password("encoded").role(User.Role.USER).build();
+        UserDto userDto = UserDto.builder().id(1L).email(dto.getEmail()).role("USER").build();
 
-        // Act
+        when(userMapper.fromDto(dto)).thenReturn(user);
+        when(passwordEncoder.encode("rawpass")).thenReturn("encoded");
+        when(userRepository.save(user)).thenReturn(savedUser);
+        when(userMapper.toDto(savedUser)).thenReturn(userDto);
+
+        // when
         UserDto result = userService.create(dto);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(dto.getEmail(), result.getEmail());
-        assertEquals("USER", result.getRole());
-        verify(userRepository, times(1)).save(any(User.class));
+        // then
+        assertThat(result).isEqualTo(userDto);
+        verify(passwordEncoder).encode("rawpass");
+        verify(userRepository).save(user);
     }
 
     @Test
-    public void testFindUserById() {
-        Long id = 1L;
-        when(userRepository.findById(id)).thenReturn(Optional.of(testUser));
+    void update_ShouldReturnNull_WhenUserDoesNotExist() {
+        // given
+        when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        Optional<User> result = userService.findById(id);
+        // when
+        UserDto result = userService.update(99L, new CreateOrUpdateUserDto("x", "y", "USER"));
 
-        assertTrue(result.isPresent());
-        assertEquals(testUser, result.get());
-        assertEquals("test@tester.com", result.get().getEmail());
-        verify(userRepository, times(1)).findById(id);
+        // then
+        assertThat(result).isNull();
     }
-
 }

@@ -18,8 +18,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        // Tillåter Swagger utan inloggning
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+
+                        // Öppna endpoints
                         .requestMatchers("/", "/login", "/register", "/css/**", "/js/**").permitAll()
+
+                        // Admin-sidor kräver ADMIN-roll
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // Allt annat kräver inloggning
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)

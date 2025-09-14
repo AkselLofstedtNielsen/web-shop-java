@@ -121,13 +121,14 @@ class CartServiceTest {
         doNothing().when(cart).updateProduct(testProduct, 2);
 
         // Mock the getTotal method
-        when(cart.getTotal()).thenReturn(24.0);
+        when(cart.getTotal()).thenReturn(BigDecimal.valueOf(24.0));
 
         cartService.addToCart(1L);
         cartService.updateQuantity(1L, 2);
-        double total = cartService.getTotal();
+        BigDecimal total = cartService.getTotal();
 
-        assertEquals(24.0, total);
+        assertEquals(BigDecimal.valueOf(24.00), total);
+
 
         // Verify that getTotal was called
         verify(cart).getTotal();

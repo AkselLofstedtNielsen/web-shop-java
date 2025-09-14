@@ -3,6 +3,7 @@ package org.example.java_labbwebshop.user;
 import lombok.AllArgsConstructor;
 import org.example.java_labbwebshop.user.dto.CreateOrUpdateUserDto;
 import org.example.java_labbwebshop.user.dto.UserDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,36 +16,54 @@ public class UserService {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private UserMapper userMapper;
 
     public UserDto create(CreateOrUpdateUserDto createUserDto) {
-        User user = UserMapper.fromDto(createUserDto);
+        User user = userMapper.fromDto(createUserDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return UserMapper.toDto(userRepository.save(user));
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public List<UserDto> getAll() {
-        return userRepository.findAll().stream().map(UserMapper::toDto).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
     public Optional<UserDto> getById(Long id) {
-        return userRepository.findById(id).map(UserMapper::toDto);
+        return userRepository.findById(id).map(userMapper::toDto);
     }
 
     public List<UserDto> findByEmailContains(String email) {
         return userRepository.findByEmailContainingIgnoreCase(email)
-                .stream().map(UserMapper::toDto).collect(Collectors.toList());
+                .stream().map(userMapper::toDto).collect(Collectors.toList());
+    }
+
+    public ResponseEntity<?> findByRole(String role) {
+        try {
+            User.Role parsedRole = User.Role.valueOf(role.toUpperCase());
+            List<UserDto> users = findByRole(parsedRole);
+            return ResponseEntity.ok(users);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid role. Valid roles are: USER, ADMIN");
+        }
     }
 
     public List<UserDto> findByRole(User.Role role) {
-        return userRepository.findByRole(role).stream().map(UserMapper::toDto).collect(Collectors.toList());
+        return userRepository.findByRole(role).stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public UserDto update(Long id, CreateOrUpdateUserDto updateUserDto) {
         return userRepository.findById(id).map(user -> {
             user.setEmail(updateUserDto.getEmail());
             user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
-            user.setRole(User.Role.valueOf(updateUserDto.getRole().toUpperCase()));
-            return UserMapper.toDto(userRepository.save(user));
+            // Default to USER if role is null/blank; otherwise parse safely
+            String dtoRole = updateUserDto.getRole();
+            User.Role role = (dtoRole != null && !dtoRole.isBlank())
+                    ? User.Role.valueOf(dtoRole.toUpperCase())
+                    : User.Role.USER;
+            user.setRole(role);
+            return userMapper.toDto(userRepository.save(user));
         }).orElse(null);
     }
 

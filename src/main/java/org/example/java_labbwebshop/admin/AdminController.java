@@ -1,6 +1,6 @@
 package org.example.java_labbwebshop.admin;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.category.Category;
 import org.example.java_labbwebshop.category.CategoryRepository;
 import org.example.java_labbwebshop.order.OrderStatus;
@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Controller
 public class AdminController {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @GetMapping("/admin")
     public String showAdminPage(Model model) {
@@ -55,10 +55,11 @@ public class AdminController {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(BigDecimal.valueOf(price));
-        product.setCategory(category);
+        Product product = Product.builder()
+                .name(name)
+                .price(BigDecimal.valueOf(price))
+                .category(category)
+                .build();
 
         productRepository.save(product);
 

@@ -20,7 +20,7 @@ public class MailService {
 
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(body, true); // true = HTML
+            helper.setText(body, true);
 
             mailSender.send(message);
         } catch (MessagingException e) {
