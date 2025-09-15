@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.cors;
+package org.example.java_labbwebshop.security.cors;
 
 import lombok.NonNull;
 import org.springframework.context.annotation.Bean;

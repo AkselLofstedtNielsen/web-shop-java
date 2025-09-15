@@ -2,53 +2,49 @@ package org.example.java_labbwebshop.cart;
 
 import lombok.RequiredArgsConstructor;
 import org.example.java_labbwebshop.cart.model.CartItem;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@RestController
 @RequiredArgsConstructor
-@Controller
+@RequestMapping("/api/cart")
 public class CartController {
 
     private final CartService cartService;
 
-    @GetMapping("/cart")
-    public String showCart(Model model) {
-        List<CartItem> cartItems = cartService.getCartItems();
-        BigDecimal total = cartService.getTotal();
-
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("total", total);
-
-        return "cart";
+    @GetMapping
+    public ResponseEntity<List<CartItem>> getCart() {
+        return ResponseEntity.ok(cartService.getCartItems());
     }
 
-    @PostMapping("/cart/show")
-    public String showCartPost() {
-        return "redirect:/cart";
-    }
-
-    @PostMapping("/cart/add")
-    public String addToCart(@RequestParam("releaseId") int releaseId) {
+    @PostMapping("/add/{releaseId}")
+    public ResponseEntity<Void> addToCart(@PathVariable int releaseId) {
         cartService.addReleaseToCart(releaseId);
-        return "redirect:/home";
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/cart/update")
-    public String updateCart(@RequestParam("productId") Long productId,
-                             @RequestParam int quantity) {
-        cartService.updateQuantity(productId, quantity);
-        return "redirect:/cart";
+    @PutMapping("/update/{releaseId}")
+    public ResponseEntity<Void> updateQuantity(@PathVariable int releaseId, @RequestParam int quantity) {
+        cartService.updateQuantity(releaseId, quantity);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/cart/remove")
-    public String removeItem(@RequestParam("productId") Long productId) {
-        cartService.removeItem(productId);
-        return "redirect:/cart";
+    @DeleteMapping("/remove/{releaseId}")
+    public ResponseEntity<Void> removeItem(@PathVariable int releaseId) {
+        cartService.removeItem(releaseId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/clear")
+    public ResponseEntity<Void> clearCart() {
+        cartService.clearCart();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<BigDecimal> getTotal() {
+        return ResponseEntity.ok(cartService.getTotal());
     }
 }

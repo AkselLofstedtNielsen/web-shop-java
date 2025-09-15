@@ -1,23 +1,22 @@
 package org.example.java_labbwebshop.order.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.java_labbwebshop.order.OrderStatus;
 import org.example.java_labbwebshop.user.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,5 +35,4 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
-
 }

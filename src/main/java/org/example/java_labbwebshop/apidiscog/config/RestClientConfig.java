@@ -1,6 +1,6 @@
-package org.example.java_labbwebshop.api.config;
+package org.example.java_labbwebshop.apidiscog.config;
 
-import org.example.java_labbwebshop.api.model.DiscogsProperties;
+import org.example.java_labbwebshop.apidiscog.model.DiscogsProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;

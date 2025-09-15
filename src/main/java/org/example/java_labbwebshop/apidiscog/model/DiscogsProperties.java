@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.api.model;
+package org.example.java_labbwebshop.apidiscog.model;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
