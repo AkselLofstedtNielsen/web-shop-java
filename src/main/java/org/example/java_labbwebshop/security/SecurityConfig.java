@@ -3,7 +3,13 @@ package org.example.java_labbwebshop.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,44 +19,62 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Tillåter Swagger utan inloggning
+                        // 🔓 Swagger endpoints öppna
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**"
                         ).permitAll()
 
-                        // Öppna endpoints
-                        .requestMatchers("/", "/login", "/register", "/css/**", "/js/**").permitAll()
+                        // 🔓 Auth endpoints öppna
+                        .requestMatchers("/api/auth/**").permitAll()
 
-                        // Admin-sidor kräver ADMIN-roll
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        // 🔒 Endast ADMIN får lista alla, hämta specifik, söka, lista efter roll, ta bort
+                        .requestMatchers(
+                                "/api/users",
+                                "/api/users/{id:[0-9]+}",
+                                "/api/users/search",
+                                "/api/users/role/**",
+                                "/api/users/{id:[0-9]+}"
+                        ).hasRole("ADMIN")
 
-                        // Allt annat kräver inloggning
+                        // 🔒 Inloggad användare får hämta och uppdatera sin egen profil
+                        .requestMatchers(
+                                "/api/users/me",
+                                "/api/users/me/**"
+                        ).authenticated()
+
+                        // 🔒 Allt annat kräver inloggning
                         .anyRequest().authenticated()
                 )
-                .userDetailsService(userDetailsService)
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .failureUrl("/login?error")
-                        .defaultSuccessUrl("/home", true)
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter,
+                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
