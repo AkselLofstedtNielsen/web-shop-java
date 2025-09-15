@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.auth;
+package org.example.java_labbwebshop.auth.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

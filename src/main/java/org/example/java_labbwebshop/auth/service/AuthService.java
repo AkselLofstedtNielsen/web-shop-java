@@ -1,10 +1,11 @@
-package org.example.java_labbwebshop.auth;
+package org.example.java_labbwebshop.auth.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.java_labbwebshop.auth.exception.AuthException;
 import org.example.java_labbwebshop.auth.jwt.JwtUtil;
-import org.example.java_labbwebshop.auth.login.LoginRequest;
-import org.example.java_labbwebshop.auth.login.LoginResponse;
-import org.example.java_labbwebshop.auth.login.RegisterRequest;
+import org.example.java_labbwebshop.auth.dto.LoginRequest;
+import org.example.java_labbwebshop.auth.dto.LoginResponse;
+import org.example.java_labbwebshop.auth.dto.RegisterRequest;
 import org.example.java_labbwebshop.user.User;
 import org.example.java_labbwebshop.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;

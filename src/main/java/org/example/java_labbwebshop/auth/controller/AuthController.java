@@ -1,11 +1,12 @@
-package org.example.java_labbwebshop.auth;
+package org.example.java_labbwebshop.auth.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.java_labbwebshop.auth.login.LoginRequest;
-import org.example.java_labbwebshop.auth.login.LoginResponse;
-import org.example.java_labbwebshop.auth.login.RegisterRequest;
+import org.example.java_labbwebshop.auth.service.AuthService;
+import org.example.java_labbwebshop.auth.dto.LoginRequest;
+import org.example.java_labbwebshop.auth.dto.LoginResponse;
+import org.example.java_labbwebshop.auth.dto.RegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

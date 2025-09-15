@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.auth.login;
+package org.example.java_labbwebshop.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

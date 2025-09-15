@@ -1,4 +1,4 @@
-package org.example.java_labbwebshop.auth.login;
+package org.example.java_labbwebshop.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
